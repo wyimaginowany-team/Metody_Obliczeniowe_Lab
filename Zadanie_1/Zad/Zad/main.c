@@ -1,162 +1,8 @@
-% !TEX TS-program = pdflatex
-% !TEX encoding = UTF-8 Unicode
-
-% This is a simple template for a LaTeX document using the "article" class.
-% See "book", "report", "letter" for other types of document.
-
-\documentclass[16pt]{article} % use larger type; default would be 10pt
-
-\usepackage[utf8]{inputenc} % set input encoding (not needed with XeLaTeX)
-\usepackage[T1]{fontenc}
-\usepackage{graphicx}
-%%% Examples of Article customizations
-% These packages are optional, depending whether you want the features they provide.
-% See the LaTeX Companion or other references for full information.
-
-%%% PAGE DIMENSIONS
-\usepackage{geometry} % to change the page dimensions
-\geometry{a4paper} % or letterpaper (US) or a5paper or....
-% \geometry{margin=2in} % for example, change the margins to 2 inches all round
-% \geometry{landscape} % set up the page for landscape
-%   read geometry.pdf for detailed page layout information
-
-\usepackage{graphicx} % support the \includegraphics command and options
-\usepackage{listings}
-% \usepackage[parfill]{parskip} % Activate to begin paragraphs with an empty line rather than an indent
-
-%%% PACKAGES
-\usepackage{booktabs} % for much better looking tables
-\usepackage{array} % for better arrays (eg matrices) in maths
-\usepackage{paralist} % very flexible & customisable lists (eg. enumerate/itemize, etc.)
-\usepackage{verbatim} % adds environment for commenting out blocks of text & for better verbatim
-\usepackage{subfig} % make it possible to include more than one captioned figure/table in a single float
-% These packages are all incorporated in the memoir class to one degree or another...
-
-%%% HEADERS & FOOTERS
-\usepackage{fancyhdr} % This should be set AFTER setting up the page geometry
-\pagestyle{fancy} % options: empty , plain , fancy
-\renewcommand{\headrulewidth}{0pt} % customise the layout...
-\lhead{}\chead{}\rhead{}
-\lfoot{}\cfoot{\thepage}\rfoot{}
-
-%%% SECTION TITLE APPEARANCE
-\usepackage{sectsty}
-\allsectionsfont{\sffamily\mdseries\upshape} % (See the fntguide.pdf for font help)
-% (This matches ConTeXt defaults)
-
-%%% ToC (table of contents) APPEARANCE
-\usepackage[nottoc,notlof,notlot]{tocbibind} % Put the bibliography in the ToC
-\usepackage[titles,subfigure]{tocloft} % Alter the style of the Table of Contents
-\renewcommand{\cftsecfont}{\rmfamily\mdseries\upshape}
-\renewcommand{\cftsecpagefont}{\rmfamily\mdseries\upshape} % No bold!
-
-%%% END Article customizations
-
-%%% The "real" document content comes below...
-
-\title{Metody Obliczeniowe}
-\author{Mateusz Miotk\\ Michał Kulesz\\ Sylwia Kaczmarczyk}
-\date{} % Activate to display a given date or no date (if empty),
-         % otherwise the current date is printed 
-
-\begin{document}
-\maketitle
-
-\section{Treść zadania}
-
-\textbf {Zadanie 1.14}: Ustalić naturalną $n_{max}$. Wczytać $ n \in \lbrace1,2,...,n_{max}\rbrace$, różne węzły $x_1.x_2,...,x_n $ oraz 
-dowolne wartości $A_1,A_2,...,A_n$ i $B_1,B_2,...,B_n $. Wyznaczyć w postaci Newtona wielomian interpolacyjny Hermite'a $W = W(x)$ stopnia co najwyżej
-$(2n-1)$ spełniający warunki: $W(x_i) = A_i$ oraz $W'(x_i) = B_i$ dla $i = 1,2,...,n$. Wynik przedstawić również w postaci ogólnej.
-
-%\subsection{A subsection}
-\section{Podstawa teoretyczna}
-\subsection {Wielomian w postaci Newtona:}
-Wielomian $p_k(x)$ można przedstawić w postaci:\\
-$p_k(x) = \sum_{i=0}^{k} c_i \prod_{j=0}^{i-1} (x-x_j)$
-Współczynniki $c_i$ to ilorazy różnicowe.
-
-\subsection {Definicja ilorazów różnicowych}
-
-Ogólnie liczbę $c_i$ definiujemy w następujący sposób:\\
-$c_i = f[x_0,...,x_i] = \frac {f[x_1,x_2,...,x_{i-1}]-f[x_0,x_1,...,x_{i-1}]} {x_i - x_0}$
-Jednak w naszych rozważaniach będziemy używać wzoru rekurencyjnego:\\
-$c_{ij} = \frac {c_{i+1,j-1}- c_{i,j-1}} {x_{i+j}-x_i}$\\
-Jeśli jednak wartość $c_i$ będzie wynosić $\frac{0}{0}$ to wpisujemy zamiast tego wartość pochodnej z $x_i$.
-\\\\
-
-
-
-\section{Algorytm, który ma realizować zadanie}
-\subsection{Pobieranie danych.}
-Na początku program zapyta nas o ilość RÓŻNYCH węzłów jakie chcemy wprowadzić do programu.Zostaną one wprowadzone do tablicy x[].\\
-Następnie program zażąda od nas podania wartości funkcji w tych punktach. Zostaną one dodane do tablicy A[]. W tablicy A[] każda wartość zostanie podwójnie zapisanie w celu łatwiejszego 
-policzenia tablicy różnic dzielonych.\\Następnie program zażąda podania wartości pochodnych w danych węzłach. Zapisane one będą do tablicy B[].\\
-\subsection{Liczenie ilorazów różnicowych.}
-W tym kroku wykorzystamy tablicę D[], która będzie miała tyle samo wyrazów co tablica A[].Wykorzystujemy to algorytm ,który wykorzystuje wzór rekurencyjny podany powyżej
-a w wyniku otrzymamy wyłącznie jeden wiersz tablicę,który odpowiada wartością $c-_i$ wielomianu w postaci Newtona.\\
-Jeżeli w wyniku obliczeń program napotka na działanie $\frac{0}{0}$ to w tym miejscu zapisywana jest wartość pochodnej w tym punkcie.
-
-\subsection{Wypisanie wielomianu w postaci Newtona.}
-Wykorzystywany jest wzór powyżej(Patrz 2.1).
-\subsection{Wypisanie wielomianu w postaci ogólnej.}
-Wykonuje to poniższy kawałek kodu: \\
-$for (j = MAX - 1; j >= 0; j--)\\
-	for (i = j; i <MAX- 1; i++)\\
-	    poly[i] = poly[i] - poly[i + 1] * x[j / 2];\\$
-	    Do każdego współczynnika odejmujemy następny współczynnik pomnożony przez wartość w nawiasie.	    
-\section{Przykładowe rozwiązanie dla małych danych}
-Dla danych:\\
-$p(1)=2$\\ $p'(1)=3$\\ $p(2)=6$\\ $p'(2)=7$\\
-Tworzymy tabelę ilorazów różnicowych:\\
-1 2|\textbf{\underline{3}} 1 2\\
-1 2|4 3\\
-2 6|\textbf{\underline{7}}\\
-2 6|\\
-Pogrubione i podkreślone wyrazy tablicy to wpisane wartości pochodnej w punkcie.\\
-Wynika to, ponieważ:\\
-$f[x_0,x_0]=\frac{f[x_0]-f[x_0]}{x_0-x_0} = \frac{2-2}{1-1} = \frac {0}{0} = f'(1) = 3$\\
-$f[x_1,x_1]=\frac{f[x_1]-f[x_1]}{x_1-x_1} = \frac{6-6}{2-2} = \frac {0}{0} = f'(2) = 7$\\
-
-Jest to pełna tabela. Program zapisze wyłącznie wiersz: \\
-2 3 1 2 \\
-co jest równoznaczne ze wspólczynnikami wielomianu w postaci Newtona.\\
-Co daje wielomian postaci:\\
-$p(x) = 2 + 3(x-1) + (x-1)^2 + 2(x-1)^{2}(x-2) $ - postać Newtona  \\
-lub\\ $p(x) = 2x^3 - 7x^2 +11x -4$ w postaci ogólnej\\
-$p'(x) = 6x^2 -14x +11$ \\\\\\
-Sprawdzamy wyniki: \\
-$p(1) = 2 + 3(1-1) + (1-1)^2 + 2(1-1)^{2}(1-2) = 2$\\
-$p'(1) = 6-14+11=3$\\
-$p(2) = 2 + 3(2-1) + (2-1)^2 + 2(2-1)^{2}(2-2) = 6$\\
-$p'(x) = 6*4-14*2+11=24-28+11=-4+11=7$\\
-\section{Opis programu}
-\subsection{Opis struktur danych oraz funkcji w programie}
-Program opiera się wyłącznie na tablicach jednowymiarowych:\\
-$x[]$ gdzie przechowywane są węzły $x_1 ... x_n$.\\ 
-$A[]$ gdzie przechowywane są wartości $f(x_0)...f(x_n)$\\
-$B[]$ gdzie przechowywane są wartości pochodnych $f'(x_0)...f'(x_n)$\\
-$D[]$ gdzie będą policzone współczynniki wielomianu w postaci Newtona za pomocą różnic dzielonych.\\
-Najważniejsze funkcje użyte w programie to:\\
-1.Wczytanie danych do tablicy.\\
-2.Policzenie różnic dzielonych zgodnie z algorytmem podanym w punkcie 3.2\\
-3.Wypisanie wielomianu w postaci Newtona.\\
-4.Wypisanie wielomianu w postaci ogólnej.
-\subsection{Opis wejścia-wyjścia}
-Program na początku chcę otrzymać liczbę, która będzie oznaczać liczbę węzłów x.\\
-Potem program wypisze $x_0 ... x_n$ by użytkownik mógł wprowadzić wartości węzłów.\\
-Następnie program będzie chciał mieć wprowadzone wartości  $f(x_0)...f(x_n)$\\
-Następnie program będzie chciał mieć wprowadzone wartości  $f'(x_0)...f'(x_n)$\\
-W każdym przypadku program jest zabezpieczony żeby wszystkie wartości były rózne w tablicy. Po wpisaniu powtarzającej się wartości użytkownik otrzyma
-komunikat o poprawne wpisanie wartości.\\
-\subsection{Treść programu}
-\lstset{language=C}
-
-\begin{lstlisting}[firstnumber=100]
 /*********************************/
 /*Autorzy: 
  * Mateusz Miotk
  * Sylwia Kaczmarczyk
- * Michal Kulesz
+ * Michał Kulesz
  *Opis:
  * Program po wczytaniu n wezlow od x_0 do x_n oraz podania wartosci
  * funkcji w tych punktach oraz pochodnych wyprowadza wielomian interpolacyjny Hermite'a.
@@ -260,7 +106,7 @@ void wczytaj_x(int x[], unsigned int N_MAX)
 	    x[i] = temp;
 	    i++;
 	} else {
-	    printf("Ta wartosc juz istnieje! Podaj inna: ");
+	    printf("Ta wartość już istnieje! Podaj inna: ");
 	}
     }
 }
@@ -288,7 +134,7 @@ void wczytaj_A(int x[], double A[], unsigned int N_MAX)
 	    i += 2;
 	    j++;
 	} else {
-	    printf("Ta wartosc juz istnieje! Podaj inna: ");
+	    printf("Ta wartość już istnieje! Podaj inna: ");
 	}
     }
 }
@@ -313,7 +159,7 @@ void wczytaj_B(int x[], double B[], unsigned int N_MAX)
 	    B[i] = temp;
 	    i++;
 	} else {
-	    printf("Ta wartosc juz istnieje! Podaj inna: ");
+	    printf("Ta wartość już istnieje! Podaj inna: ");
 	}
     }
 
@@ -340,7 +186,7 @@ void wczytaj_D(double D[], double A[], int X[], double B[],
     for (j = 1; j < N_MAX; j++) {
 	for (i = N_MAX - 1; i >= j; i--) {
 	    D[i] = (D[i] - D[i - 1]) / (X[i / 2] - X[(i - j) / 2]);
-	    if (D[i] != D[i]) {	// To znaczy ze liczba nie jest liczba
+	    if (D[i] != D[i]) {	// To znaczy że liczba nie jest liczbą
 		D[i] = B[i / 2];
 	    }
 	}
@@ -463,7 +309,7 @@ void wypisz_normalnie(double D[], int x[], unsigned int N_MAX)
 {
     double *poly = D;
     int i, j;
-    printf("POSTAC NORMALNA: \n");
+    printf("POSTAĆ NORMALNA: \n");
     /*Ponizsze dwie petle licza wspolczynniki wielomianu ogolnej postaci z postaci Newtona */
     for (j = N_MAX - 1; j >= 0; j--)
 	for (i = j; i < N_MAX - 1; i++)
@@ -488,11 +334,11 @@ void wypisz_normalnie(double D[], int x[], unsigned int N_MAX)
     }
     putchar('\n');
 }
-/* Zakomentowane elementy sluza wylacznie do diagnostyki programu*/
+
 int main()
 {
     unsigned int N_MAX;
-    pobierz_int(&N_MAX, "Podaj ilosc wezlow: \n");
+    pobierz_int(&N_MAX, "Podaj ilość węzłów: \n");
     int *x = malloc(N_MAX * sizeof(int));
     double *A = (double *) malloc(2 * N_MAX * sizeof(double));
     double *B = (double *) malloc(N_MAX * sizeof(double));
@@ -515,9 +361,3 @@ int main()
     free(D);
     return EXIT_SUCCESS;
 }
-\end{lstlisting}
-\subsection{Przykładowe wyniki działania programu}
-\includegraphics {obraz1.png}\\
-\includegraphics{obraz2.png}\\
-\includegraphics{obraz3.png}
-\end{document}
