@@ -91,7 +91,6 @@ int przeszukaj_tablice_int(int tab[], unsigned int N_MAX, int var)
  * Opis wejscia:tablica int x[],N_MAX jako rozmiar tablicy 
  * Opis funkcji:Funkcja wczytuje do tablicy x wartosci.
  * Funkcja pilnuje aby byly to rozne wartosci
- * 
  * Opis wyjscia:BRAK. Otrzymujemy wypelniona tablice x[].
 *************************************/
 void wczytaj_x(int x[], unsigned int N_MAX)
@@ -106,7 +105,7 @@ void wczytaj_x(int x[], unsigned int N_MAX)
 	    x[i] = temp;
 	    i++;
 	} else {
-	    printf("Ta wartość już istnieje! Podaj inna: ");
+	    printf("Ta wartosc juz istnieje! Podaj inna! \n");
 	}
     }
 }
@@ -115,7 +114,6 @@ void wczytaj_x(int x[], unsigned int N_MAX)
  * Nazwa funkcji:wczytaj_A
  * Opis wejscia:tablica x[],tablica double A[],N_MAX jako rozmiar tablicy 
  * Opis funkcji:Funkcja wczytuje do tablicy A wartosci funkcji.
- * Funkcja pilnuje aby byly to rozne wartosci.
  * Tablica x[] sluzy do wyswietlania jakiemu wezlowi chcemy przypisac wartosc.
  * W tablicy A wartosci sa powielane.
  * Opis wyjscia:BRAK. Otrzymujemy wypelniona tablice A[].
@@ -127,15 +125,10 @@ void wczytaj_A(int x[], double A[], unsigned int N_MAX)
     while (i < 2 * N_MAX) {
 	printf("f(%d)==", x[j]);
 	scanf("%lf", &temp);
-	A[i] = INFINITY;
-	if (przeszukaj_tablice(A, i, temp) == 0) {
-	    A[i] = temp;
-	    A[i + 1] = temp;
-	    i += 2;
-	    j++;
-	} else {
-	    printf("Ta wartość już istnieje! Podaj inna: ");
-	}
+	A[i] = temp;
+	A[i + 1] = temp;
+	i += 2;
+	j++;
     }
 }
 
@@ -143,7 +136,6 @@ void wczytaj_A(int x[], double A[], unsigned int N_MAX)
  * Nazwa funkcji:wczytaj_B
  * Opis wejscia:tablica int x[],tablica double B[],N_MAX jako rozmiar tablicy 
  * Opis funkcji:Funkcja wczytuje do tablicy B wartosci pochodnych.
- * Funkcja pilnuje aby byly to rozne wartosci.
  * Tablica x[] sluzy do wyswietlania jakiemu wezlowi chcemy przypisac wartosc.
  * Opis wyjscia:BRAK. Otrzymujemy wypelniona tablice B[].
 *************************************/
@@ -154,13 +146,10 @@ void wczytaj_B(int x[], double B[], unsigned int N_MAX)
     while (i < N_MAX) {
 	printf("f'(%d)==", x[i]);
 	scanf("%lf", &temp);
-	B[i] = INFINITY;
-	if (przeszukaj_tablice(B, i, temp) == 0) {
-	    B[i] = temp;
-	    i++;
-	} else {
-	    printf("Ta wartość już istnieje! Podaj inna: ");
-	}
+
+
+	B[i] = temp;
+	i++;
     }
 
 }
@@ -199,10 +188,16 @@ void wczytaj_D(double D[], double A[], int X[], double B[],
  * Opis funkcji:Funkcja wczytuje wartosc int i zapisuje go do *a.
  * Opis wyjscia:BRAK.W *a mamy wczytana wartosc.
 *************************************/
-void pobierz_int(unsigned int *a, char *prompt)
+void pobierz_int(unsigned int *a, unsigned int K_MAX, char *prompt)
 {
     printf("%s", prompt);
     scanf("%d", a);
+    while (*a < 0 || *a > K_MAX) {
+	printf("ZLA WARTOSC! PODAJ INNA: ");
+	scanf("%d", a);
+    }
+
+
 }
 
 /************************************
@@ -215,88 +210,27 @@ void wypisz_newton(double D[], int x[], unsigned int N_MAX)
 {
     int i, j;
     printf("POSTAC NEWTONA: \n");
+    printf("W(x)==");
     for (i = 0; i < N_MAX; i++) {
+
 	if (D[i] != 0 && D[i] != 1) {
+
 	    printf("%.03lf", D[i]);
+
 	}
-	for (j = 0; j <= i - 1; j++) {
+
+	for (j = 0; j <= i - 1 && D[i] != 0; j++) {
 	    if (x[j / 2] > 0)
 		printf("(x-%d)", x[j / 2]);
 	    else
 		printf("(x+%d)", -1 * x[j / 2]);
 	}
-
-	if (i < N_MAX - 1 && D[i + 1] >= 0 && i != N_MAX - 1 && D[i] != 0) {
+	if ((i < N_MAX - 1 && D[i + 1] > 0 && D[i] != 0) || D[i + 1] > 0) {
 	    putchar('+');
 	}
     }
     putchar('\n');
-}
 
-/************************************
- * Nazwa funkcji:policz_newton
- * Opis wejscia:tablica double D[] z wartosciami wielomianu,tablica x[] z wezlami,N_MAX jako rozmiar tablicy,var jako wartosc do policzenia
- * Opis funkcji:Funkcja liczy f(var) i wydrukuje wynik na ekranie.
- * Opis wyjscia:Wydrukowana wartosc f(var)==.
-*************************************/
-void policz_newton(double D[], int x[], unsigned int N_MAX, int var)
-{
-    int i, j;
-    double suma = D[0];
-    double iloczyn = 1;
-    printf("LICZE f(%d)== ", var);
-    for (i = 1; i < N_MAX; i++) {
-	iloczyn = 1;
-	for (j = 0; j <= i - 1; j++) {
-	    iloczyn *= (var - x[j / 2]);
-	}
-	suma += (D[i] * iloczyn);
-    }
-    printf("%.03lf\n", suma);
-}
-
-/************************************
- * Nazwa funkcji:sprawdz_newton
- * Opis wejscia:tablica double D[] z wartosciami wielomianu,tablica x[] z wezlami,N_MAX jako rozmiar tablicy
- * Opis funkcji:Funkcja liczy wszystkie wartosci wezlow z tablicy x[].
- * Opis wyjscia:Wydrukowane wartosci f(x[i]) dla i=0...N_MAX.
-*************************************/
-void sprawdz_newton(double D[], int x[], unsigned int N_MAX)
-{
-    int i, j;
-    for (i = 0, j = 0; i < N_MAX; i++, j += 2) {
-	policz_newton(D, x, 2 * N_MAX, x[i]);
-    }
-}
-
-/************************************
- * Nazwa funkcji:policz_normalnie
- * Opis wejscia:tablica double D[] z wartosciami wielomianu,tablica x[] z wezlami,N_MAX jako rozmiar tablicy,var jako wartosc
- * Opis funkcji:Schemat hornera dla zwyklego wielomianu.
- * Opis wyjscia:Wydrukowana wartosc f(var).
-*************************************/
-void policz_normalnie(double D[], int x[], unsigned int N_MAX, int var)
-{
-    int i;
-    double suma = D[N_MAX - 1];
-    for (i = N_MAX - 2; i >= 0; i--) {
-	suma = (suma * var + D[i]);
-    }
-    printf("f(%d)==%.03lf\n", var, suma);
-}
-
-/************************************
- * Nazwa funkcji:sprawdz_normalnie
- * Opis wejscia:tablica double D[] z wartosciami wielomianu,tablica x[] z wezlami,N_MAX jako rozmiar tablicy
- * Opis funkcji:Funkcja liczy wszystkie wartosci wezlow z tablicy x[], wykorzystujac schemat Hornera.
- * Opis wyjscia:Wydrukowane wartosci f(x[i]) dla i=0...N_MAX.
-*************************************/
-void sprawdz_normalnie(double D[], int x[], unsigned int N_MAX)
-{
-    int i;
-    for (i = 0; i < N_MAX; i++) {
-	policz_normalnie(D, x, 2 * N_MAX, x[i]);
-    }
 }
 
 /************************************
@@ -310,6 +244,7 @@ void wypisz_normalnie(double D[], int x[], unsigned int N_MAX)
     double *poly = D;
     int i, j;
     printf("POSTAĆ NORMALNA: \n");
+    printf("W(x)==");
     /*Ponizsze dwie petle licza wspolczynniki wielomianu ogolnej postaci z postaci Newtona */
     for (j = N_MAX - 1; j >= 0; j--)
 	for (i = j; i < N_MAX - 1; i++)
@@ -322,14 +257,14 @@ void wypisz_normalnie(double D[], int x[], unsigned int N_MAX)
 	    else
 		printf("x^%d", i);
 	} else if (i == 1) {
-	    if (poly[i] != 1)
+	    if (poly[i] != 1 && poly[i] != 0)
 		printf("%.03lfx", poly[i]);
-	    else
+	    else if (poly[i] != 0)
 		printf("x");
 	} else if (poly[i] != 0) {
 	    printf("%.03lf", poly[i]);
 	}
-	if (i + 1 < N_MAX && D[i + 1] >= 0 && poly[i] != 0)
+	if (i + 1 < N_MAX && D[i + 1] > 0 && poly[i] != 0)
 	    putchar('+');
     }
     putchar('\n');
@@ -337,8 +272,9 @@ void wypisz_normalnie(double D[], int x[], unsigned int N_MAX)
 
 int main()
 {
+    unsigned const int K_MAX = 5;
     unsigned int N_MAX;
-    pobierz_int(&N_MAX, "Podaj ilość węzłów: \n");
+    pobierz_int(&N_MAX, K_MAX, "Podaj ilosc wezlow: \n");
     int *x = malloc(N_MAX * sizeof(int));
     double *A = (double *) malloc(2 * N_MAX * sizeof(double));
     double *B = (double *) malloc(N_MAX * sizeof(double));
@@ -352,9 +288,7 @@ int main()
     wczytaj_D(D, A, x, B, 2 * N_MAX);
     //pokaz_tablice_double(D,2*N_MAX,"Tabela wartosci roznic dzielonych: ","D_");
     wypisz_newton(D, x, 2 * N_MAX);
-    //sprawdz_newton(D,x,N_MAX);
     wypisz_normalnie(D, x, 2 * N_MAX);
-    //sprawdz_normalnie(D,x,N_MAX);
     free(x);
     free(A);
     free(B);
