@@ -178,8 +178,25 @@ Ilosc krokow: 3
 
 \section{Opis Programu}
 \subsection{Opis struktur danych oraz funkcji w programie}
-
+Program opiera się w głównej mierze z liczb zmiennoprzeciwnkowych:\\
+$x$ określa, czy dana liczba jest większa, równa lub mniejsza od zera\\
+$a$ określa dolny przedział przeszukiwań drogą bisekcji\\
+$b$ określa górny przedział przeszukiwań drogą bisekcji\\
+$epsilon$ określa dokładność przeszukiwań miejsca zerowego\\
+Najważniejsze funkcje użyte w programie to:\\
+1. Wczytywanie zmiennych a i b\\
+2. Sprawdzenie, czy a i b są prawidłowe\\
+3. Wczytywanie epsilon oraz sprawdzanie czy jest prawidłowy\\
+4. Wypisanie miejsca zerowego metodą bisekcji\\
+5. Wypisanie liczby kroków do znalezienia miejsca zerowego\\
+6. Wypisanie miejsca zerowego metodą Newtona\\
+7. Wypisanie liczby kroków do znalezienia miejsca zerowego\\
 \subsection{Opis wejścia-wyjścia}
+Program na początku chce otrzymać zmienne $a$ i $b$, które muszą spełniać warunkami opisanymi w punkcie 3.\\
+Program będzie sprawdzał, czy podane wartości spełniają warunek. Jeżeli nie, to wyświetli odpowiedni komunikat.\\
+Następnie program chce otrzymać wartość $epsilon$, który tak jak powyżej musi spełnić warunek. W przciwnym wypadku wyświetli odpowiedni komunikat.\\
+Potem program wypisze miejsce zerowe znalezione metodą bisekcji i Newtona, po każdym znalezionym rozwiązaniu poda ilość kroków potrzebne do znalezienia miejsca zerowego.\\
+Po tym wszystkim użytkownik może jeszcze raz podać liczbe $epsilon$, dopóki mu się nie znudzi.\\ 
 \subsection{Treść programu}
 \begin{lstlisting}
 /*Autorzy:
