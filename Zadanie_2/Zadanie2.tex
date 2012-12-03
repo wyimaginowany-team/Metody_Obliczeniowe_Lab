@@ -95,7 +95,7 @@ void Bisection(double a, double b, double epsilon)
 	e /= 2;
 	c = a + e;
 	w = f(c);
-	printf("KROK %d:f(%lf)==%lf\n", M, c, w);
+	//printf("KROK %d:f(%lf)==%lf\n", M, c, w);
 	if (fabs(w) < epsilon)
 	    break;
 	if (sgn(w) != sgn(u)) {
@@ -106,7 +106,7 @@ void Bisection(double a, double b, double epsilon)
 	    u = w;
 	}
     }
-    printf("Przyblizone rozwiazanie: f(%lf)==%lf\n", c, w);
+    printf("Przyblizone rozwiazanie: x==%lf\n", c);
     printf("Ilosc krokow: %d\n", M);
 }
 \end{lstlisting}
@@ -127,13 +127,13 @@ void Newton(double x_0, double epsilon)
 	M++;
 	x_1 = x_0 - v / f_prim(x_0);
 	v = f(x_1);
-	printf("KROK %d:f(%lf)==%lf\n", M, x_1, v);
+	//printf("KROK %d:f(%lf)==%lf\n", M, x_1, v);
 	if (fabs(x_1 - x_0) <= epsilon) {
 	    break;
 	}
 	x_0 = x_1;
     }
-    printf("Przyblizone rozwiazanie: f(%lf)==%lf\n", x_1, v);
+    printf("Przyblizone rozwiazanie: x==%lf\n", x_1);
     printf("Ilosc krokow: %d\n", M);
 }
 \end{lstlisting}
@@ -260,7 +260,7 @@ void Bisection(double a, double b, double epsilon)
 	e /= 2;
 	c = a + e;
 	w = f(c);
-	printf("KROK %d:f(%lf)==%lf\n", M, c, w);
+	//printf("KROK %d:f(%lf)==%lf\n", M, c, w);
 	if (fabs(w) < epsilon)
 	    break;
 	//printf("f(%lf)==%lf\n",c,w);
@@ -273,11 +273,11 @@ void Bisection(double a, double b, double epsilon)
 	}
 	//printf("U==%lf V==%lf e==%lf\n",u,v,e);
     }
-    printf("Przyblizone rozwiazanie: f(%lf)==%lf\n", c, w);
+    printf("Przyblizone rozwiazanie: x==%lf\n", c);
     printf("Ilosc krokow: %d\n", M);
 }
 
-/*Nazwa funkcji:Bisection(double a,double b, double epsilon)
+/*Nazwa funkcji:Newton(double x_0, double epsilon)
  * Opis wejscia:liczba x_0 zmiennoprzecinkowa oraz epsilon 
  * zmiennoprzecinkowe
  * Opis funkcji:Funkcja szuka miejsca zerowego metoda Newtona
@@ -297,13 +297,13 @@ void Newton(double x_0, double epsilon)
 	M++;
 	x_1 = x_0 - v / f_prim(x_0);
 	v = f(x_1);
-	printf("KROK %d:f(%lf)==%lf\n", M, x_1, v);
+//	printf("KROK %d:f(%lf)==%lf\n", M, x_1, v);
 	if (fabs(x_1 - x_0) <= epsilon) {
 	    break;
 	}
 	x_0 = x_1;
     }
-    printf("Przyblizone rozwiazanie: f(%lf)==%lf\n", x_1, v);
+    printf("Przyblizone rozwiazanie: x==%lf\n", x_1);
     printf("Ilosc krokow: %d\n", M);
 }
 
