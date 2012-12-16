@@ -79,7 +79,7 @@ Wykorzystywane jest tutaj dane rownanie rekurencyjne: \\
 $$
  \left\{ \begin{array}{ll}
  y_0 = y(x_0)\\
- y_1 = y_0+hf(x_0,y(x_0))\\
+ y_1 = y_0+hf(x_0,y_0)\\
 y_{i+1} = y_i + hf(x_i,y_i)\\
 \end{array} \right.
 $$
@@ -90,12 +90,45 @@ $$
  \left\{ \begin{array}{ll}
  y_0 = y(x_0)\\
  y_1 = y_0+hf(x_0 + \frac{h}{2},y_0 + f(x_0,y_0)\cdot\frac{h}{2})\\
- y_{i+1} = y(x_i)+hf(x_i + \frac{h}{2},y_i + f(x_i,y_i)\cdot\frac{h}{2})\\
+ y_{i+1} = y_i+hf(x_i + \frac{h}{2},y_i + f(x_i,y_i)\cdot\frac{h}{2})\\
 \end{array} \right.
 $$
 \section{Algorytm realizujący zadanie}
 \subsection{Algorytm}
+1.Program będzie wymagał od użytkownika "dopóki mu się nie znudzi" parametru h gdzie $h \in [0,1]$\\
+2.Następnie dla danego parametru h w przedziale $[1,3]$ będzie liczone rozwiązanie metodą Eulera oraz Zmodyfikowaną metodą Eulera. \\
 \subsection{Przykładowe rozwiązanie}
+Dla h = 0.5 rozwiązanie wynosi:\\
+Metoda Eulera:\\
+$
+X_0 == 1.500000 Y_0 == 2.000000 Dokl = 2.250000 Blad==0.250000 \\
+X_0 == 2.000000 Y_0 == 2.437500 Dokl = 4.000000 Blad==1.562500 \\
+$
+Metoda Mid-Point\\
+$
+X_0 == 1.500000 Y_0 == 2.058594 Dokl = 2.250000 Blad==0.191406 \\
+X_0 == 2.000000 Y_0 == 0.171691 Dokl = 4.000000 Blad==3.828309 \\\\
+$
+Dla h = 0.25 rozwiązanie wynosi:\\
+Metoda Eulera:\\
+$
+X_0 == 1.250000 Y_0 == 1.500000 Dokl = 1.562500 Blad==0.062500 \\
+X_0 == 1.500000 Y_0 == 2.029297 Dokl = 2.250000 Blad==0.220703 \\
+X_0 == 1.750000 Y_0 == 2.307070 Dokl = 3.062500 Blad==0.755430 \\
+X_0 == 2.000000 Y_0 == 1.153902 Dokl = 4.000000 Blad==2.846098 \\
+X_0 == 2.500000 Y_0 == -3.451778 Dokl = 6.250000 Blad==9.701778 \\
+$
+Metoda Mid-Point\\
+$
+X_0 == 1.250000 Y_0 == 1.542847 Dokl = 1.562500 Blad==0.019653 \\
+X_0 == 1.500000 Y_0 == 2.136079 Dokl = 2.250000 Blad==0.113921 \\
+X_0 == 1.750000 Y_0 == 2.309015 Dokl = 3.062500 Blad==0.753485 \\
+X_0 == 2.000000 Y_0 == -1.428743 Dokl = 4.000000 Blad==5.428743 \\
+X_0 == 2.250000 Y_0 == -0.800476 Dokl = 5.062500 Blad==5.862976 \\
+X_0 == 2.500000 Y_0 == 5.506390 Dokl = 6.250000 Blad==0.743610 \\
+$
+
+
 \section{Opis programu}
 \subsection{Opis struktur danych oraz funkcji w programie}
 \subsection{Opis wejścia-wyjścia}
